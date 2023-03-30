@@ -4,14 +4,13 @@ window.addEventListener("load", initApp);
 //InitApp
 async function initApp() {
   //import data from online json file.
-  const data = await getData(
+  const characters = await getData(
     "https://cederdorff.github.io/dat-js/05-data/southpark.json"
   );
-
   //sort data by name.
-  data.sort((obj1, obj2) => {
-    let fobj1 = obj1.name.toLowerCase(),
-      fobj2 = obj2.name.toLowerCase();
+  characters.sort((obj1, obj2) => {
+    let fobj1 = obj1.name.toLowerCase();
+    let fobj2 = obj2.name.toLowerCase();
 
     if (fobj1 < fobj2) {
       return -1;
@@ -21,7 +20,8 @@ async function initApp() {
     }
     return 0;
   });
-  showAllCharacters(data);
+
+  characters.forEach(showCharacter);
 }
 
 //Essential Functions
@@ -70,11 +70,4 @@ async function getData(url) {
   const response = await fetch(url);
   const data = await response.json();
   return data;
-}
-
-//Splits array by objects and uses showCharacter function on each object.
-function showAllCharacters(list) {
-  for (const obj of list) {
-    showCharacter(obj);
-  }
 }
