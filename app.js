@@ -1,21 +1,30 @@
 "use strict";
-
-// ============ LOAD & INIT APP ============ //
 window.addEventListener("load", initApp);
 
-//============START============//
-
+//InitApp
 async function initApp() {
-  // Harry Potter
-  const christinaAguilera = await getCharacter("data/christinaAguilera.json");
-  showCharacter(christinaAguilera);
-  document
-    .querySelector("#dialog-close")
-    .addEventListener("click", closeDialogWindow);
+  //import data from online json file.
+  const data = await getData(
+    "https://cederdorff.github.io/dat-js/05-data/southpark.json"
+  );
+
+  //sort data by name.
+  data.sort((obj1, obj2) => {
+    let fobj1 = obj1.name.toLowerCase(),
+      fobj2 = obj2.name.toLowerCase();
+
+    if (fobj1 < fobj2) {
+      return -1;
+    }
+    if (fobj1 > fobj2) {
+      return 1;
+    }
+    return 0;
+  });
+  showAllCharacters(data);
 }
 
-// essential functions
-
+//Essential Functions
 function showCharacter(character) {
   document.querySelector("#characters").insertAdjacentHTML(
     "beforeend",
@@ -25,7 +34,6 @@ function showCharacter(character) {
                 <h2>${character.name}</h2>
                 <p>Age: ${character.age}</p>
                 <p>Gender: ${character.gender}</p>
-                <p>Race: ${character}</p>
             </article>
         `
   );
@@ -35,46 +43,38 @@ function showCharacter(character) {
   // Character clicked function
   function characterClicked() {
     console.log(character);
-    document.querySelector("#dialog-window").insertAdjacentHTML(
+    document.querySelector("#dialog-content").innerHTML = "";
+    document.querySelector("#dialog-content").insertAdjacentHTML(
       "afterbegin",
       /*html*/ `
       <img src=${character.image} />
-      <p>Name: ${character.name}</p>
-      <p>Age: ${character.age}</p>
-      <p>Gender: ${character.gender}</p>
-      <p>Occupation: ${character.occupation}</p>
-      <p>School grade: ${character.schoolGrade}</p>
-      <p>Religion: ${character.religion}</p>
-      <p>Catchphrase: ${character.catchphrase}</p>
-      <p>Hair color: ${character.hairColor}</p>
-      <p>Episodes: ${character.episodes}</p>
-      <p>Appearances: ${character.appearances}</p>
-      <p>First appearance: ${character.firstAppearance}</p>
-      <p>Race: ${character.race}</p>
-      <p>Voiced by: ${character.voicedBy}</p>
-      <a href=${character.link} target=_blank>${character.link}</a>
+      <h1>${character.name}</h1>
+      <p>${character.name}'s first appearance is in the episode ${character.firstAppearance}. They are a ${character.gender} character, who is ${character.age} years old. The character is voiced by ${character.voicedBy}</p>
+      <ul>Age: ${character.age}</ul>
+      <ul>Gender: ${character.gender}</ul>
+      <ul>Occupation: ${character.occupation}</ul>
+      <ul>School grade: ${character.schoolGrade}</ul>
+      <ul>Religion: ${character.religion}</ul>
+      <ul>Catchphrase: ${character.catchphrase}</ul>
+      <ul>Hair color: ${character.hairColor}</ul>
+      <ul>First appearance: ${character.firstAppearance}</ul>
+      <ul>Race: ${character.race}</ul>
+      <ul>Voiced by: ${character.voicedBy}</ul>
       `
     );
     document.querySelector("#dialog-window").showModal();
   }
 }
 
-async function getCharacter(url) {
+async function getData(url) {
   const response = await fetch(url);
   const data = await response.json();
   return data;
 }
 
-function closeDialogWindow() {
-  document.querySelector("#dialog-window").showModal();
+//Splits array by objects and uses showCharacter function on each object.
+function showAllCharacters(list) {
+  for (const obj of list) {
+    showCharacter(obj);
+  }
 }
-
-function getDescription(character) {}
-
-function hideInfo(character) {}
-
-// helper functions
-
-function formatDate(date) {}
-
-function calcAge(dateOfBirth) {}

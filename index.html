@@ -5,29 +5,25 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="app.css" />
-    <link
-      rel="shortcut icon"
-      href="https://cederdorff.github.io/img/favicon.webp"
-      type="image/x-icon"
-    />
     <title>South Park Characters</title>
   </head>
-
   <body>
     <header>
       <h1>South Park Characters</h1>
     </header>
     <main>
       <dialog id="dialog-window">
-          <button id="dialog-close">Close</button>
+        <section id="dialog-content"></section>
+        <form method="dialog">
+          <button>Close</button>
         </form>
       </dialog>
       <section id="characters" class="grid-container"></section>
     </main>
     <footer>
       <p>South Park app by MALTE</p>
+      <a id="read-me-link">ReadMe.md</a>
     </footer>
-
     <script src="app.js"></script>
   </body>
 </html>
